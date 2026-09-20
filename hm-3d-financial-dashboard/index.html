@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="mr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>समृद्ध शाळा ई-पोर्टल | 3D वित्तीय ट्रॅकिंग मॉड्यूल (HM 3D Financial Dashboard)</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js & Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation (Head Master HM Sidebar) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand-icon">
+                    <i class="fa-solid fa-school-flag"></i>
+                </div>
+                <div class="sidebar-brand-text">
+                    <span class="brand-title" id="txt-brand-title">समृद्ध शाळा</span>
+                    <span class="brand-badge" id="txt-brand-badge">ZP E-PORTAL</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section-title" id="txt-nav-section-title">मुख्याध्यापक कार्यक्षेत्र (HM Menu)</div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item">
+                    <i class="fa-solid fa-table-columns"></i>
+                    <span class="nav-text" data-mr="४.१ डॅशबोर्ड" data-en="4.1 HM Dashboard">४.१ डॅशबोर्ड</span>
+                </a>
+                <a href="#progress" class="nav-item">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span class="nav-text" data-mr="४.२ प्रगती अपडेट" data-en="4.2 Progress Update">४.२ प्रगती अपडेट</span>
+                </a>
+                <a href="#blockers" class="nav-item">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span class="nav-text" data-mr="४.३ अडचणी / ब्लॉकर" data-en="4.3 Blocker Mgmt">४.३ अडचणी / ब्लॉकर</span>
+                    <span class="badge-pill" style="background: rgba(239, 68, 68, 0.3); color:#ef4444;">१</span>
+                </a>
+                
+                <!-- Highlighted FR 3.5 3D Module -->
+                <a href="#financial-tracking" class="nav-item active">
+                    <i class="fa-solid fa-vault"></i>
+                    <span class="nav-text" data-mr="३.५ वित्तीय ट्रॅकिंग (3D)" data-en="3.5 3D Financial Tracking">३.५ वित्तीय ट्रॅकिंग (3D)</span>
+                    <span class="badge-pill" style="background: rgba(16, 185, 129, 0.3); color:#10b981;">3D LIVE</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="school-info-card">
+                    <div class="school-info-name" id="sidebar-school-name">जि. प. प्राथमिक शाळा, खेड</div>
+                    <div class="school-info-udise">UDISE: <span id="sidebar-udise">27250604102</span></div>
+                    <div style="font-size: 0.7rem; color: #10b981; margin-top: 4px; font-weight: 600;">
+                        <i class="fa-solid fa-circle-check"></i> <span id="txt-verified-status">शाळा स्तर पडताळणी पूर्ण</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-branding">
+                <div class="portal-logo-badge">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <div class="portal-title">
+                    <h1 id="header-portal-title">शाळा पायाभूत सुविधा पुनर्रचना आणि पुनर्वसन प्रणाली</h1>
+                    <div class="portal-subtitle" id="header-portal-subtitle">पुणे जिल्हा परिषद | समृद्ध शाळा ई-पोर्टल ३D डिजिटल मॉनिटरिंग</div>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <button class="btn-3d btn-3d-secondary" id="lang-toggle-btn" title="भाषा बदला / Toggle Language">
+                    <i class="fa-solid fa-language"></i>
+                    <span id="current-lang-text">English</span>
+                </button>
+
+                <button class="btn-3d btn-3d-secondary" id="theme-toggle-btn" title="थीम बदला / Switch Theme">
+                    <i class="fa-solid fa-moon" id="theme-icon"></i>
+                </button>
+
+                <div class="user-profile-badge">
+                    <div class="user-avatar">HM</div>
+                    <div class="user-details">
+                        <span class="user-name" id="header-user-name">श्री. रमेश पाटील</span>
+                        <span class="user-role" id="header-user-role">मुख्याध्यापक (Head Master)</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title-group">
+                    <h2 id="page-main-heading">
+                        <i class="fa-solid fa-chart-pie" style="color: #3b82f6;"></i>
+                        <span id="txt-page-title">३.५ निधी उपयोगिता आणि वित्तीय ट्रॅकिंग प्रणाली (3D Glass Module)</span>
+                    </h2>
+                    <p id="txt-page-desc">FR 5.1 निधी उपयोगिता नियंत्रण • FR 5.2 तारीखवार खर्च नोंदणी • FR 5.3 खर्च ट्रेंड विश्लेषण</p>
+                </div>
+                
+                <div class="page-actions">
+                    <button class="btn-3d btn-3d-success" id="open-add-expense-modal">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span id="txt-btn-add-expense">+ नवीन खर्च नोंदवा</span>
+                    </button>
+                    <button class="btn-3d btn-3d-primary" id="btn-export-csv">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span id="txt-btn-export">अहवाल डाउनलोड</span>
+                    </button>
+                    <button class="btn-3d btn-3d-secondary" onclick="window.print();">
+                        <i class="fa-solid fa-print"></i>
+                        <span id="txt-btn-print">प्रिंट</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FR 5.1 - Fund Utilization 3D KPI Cards -->
+            <div class="kpi-grid">
+                <div class="glass-card kpi-card" style="--kpi-accent: linear-gradient(90deg, #3b82f6, #60a5fa);">
+                    <div class="kpi-header">
+                        <span class="kpi-title" id="lbl-sanctioned-title">मंजूर एकूण निधी (Sanctioned)</span>
+                        <div class="kpi-icon-3d" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="kpi-sanctioned-val">₹ २५,००,०००</div>
+                    <div class="kpi-subtext">
+                        <i class="fa-solid fa-circle-check" style="color: #60a5fa;"></i>
+                        <span id="txt-sanctioned-sub">४ विविध योजनांतर्गत मंजूर</span>
+                    </div>
+                </div>
+
+                <div class="glass-card kpi-card" style="--kpi-accent: linear-gradient(90deg, #10b981, #34d399);">
+                    <div class="kpi-header">
+                        <span class="kpi-title" id="lbl-utilized-title">खर्च केलेली एकूण रक्कम (Utilized)</span>
+                        <div class="kpi-icon-3d" style="background: linear-gradient(135deg, #10b981, #047857);">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="kpi-utilized-val" style="color: #10b981;">₹ १६,४०,०००</div>
+                    <div class="kpi-subtext">
+                        <i class="fa-solid fa-arrow-trend-up" style="color: #10b981;"></i>
+                        <span id="kpi-utilized-percent">६५.६% निधी वापर पूर्ण</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="kpi-progress-fill" style="width: 65.6%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                    </div>
+                </div>
+
+                <div class="glass-card kpi-card" style="--kpi-accent: linear-gradient(90deg, #f59e0b, #fbbf24);">
+                    <div class="kpi-header">
+                        <span class="kpi-title" id="lbl-remaining-title">उर्वरित शिल्लक निधी (Balance)</span>
+                        <div class="kpi-icon-3d" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="kpi-remaining-val" style="color: #f59e0b;">₹ ८,६०,०००</div>
+                    <div class="kpi-subtext">
+                        <i class="fa-solid fa-piggy-bank" style="color: #f59e0b;"></i>
+                        <span id="kpi-remaining-percent">३४.४% उपलब्ध निधी</span>
+                    </div>
+                </div>
+
+                <div class="glass-card kpi-card" style="--kpi-accent: linear-gradient(90deg, #8b5cf6, #c084fc);">
+                    <div class="kpi-header">
+                        <span class="kpi-title" id="lbl-burnrate-title">सरासरी दैनिक खर्च गती (Burn Rate)</span>
+                        <div class="kpi-icon-3d" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="kpi-burnrate-val" style="color: #c084fc;">₹ १५,००० / दिवस</div>
+                    <div class="kpi-subtext">
+                        <i class="fa-solid fa-hourglass-half" style="color: #c084fc;"></i>
+                        <span id="txt-runway-text">अंदाजित ६२ दिवस निधी पुरेल</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FR 2.3 Funding Sources Grid -->
+            <div class="section-title-bar">
+                <h3>
+                    <i class="fa-solid fa-layer-group" style="color: #8b5cf6;"></i>
+                    <span id="txt-funding-section-title">FR २.३ निधी स्रोत वितरण विवरण (Funding Distribution)</span>
+                </h3>
+            </div>
+            <div class="funding-sources-grid" id="funding-sources-container"></div>
+
+            <!-- CEO Strategic Directive Suite -->
+            <div class="ceo-suite-section">
+                <div class="section-title-bar">
+                    <h3>
+                        <i class="fa-solid fa-user-tie" style="color: #f59e0b;"></i>
+                        <span id="txt-ceo-suite-title">मुख्य कार्यकारी अधिकारी (CEO) धोरणात्मक शिफारसी व मार्गदर्शन</span>
+                    </h3>
+                    <span class="ceo-badge">CEO DIRECTIVE SUITE</span>
+                </div>
+                <div class="ceo-cards-grid" id="ceo-insights-container"></div>
+            </div>
+
+            <!-- FR 5.3 Utilization Trend & Dynamic Charts -->
+            <div class="section-title-bar">
+                <h3>
+                    <i class="fa-solid fa-chart-line" style="color: #06b6d4;"></i>
+                    <span id="txt-charts-section-title">FR ५.३ खर्च ट्रेंड आणि आलेख विश्लेषण (Utilization Trends & Analytics)</span>
+                </h3>
+            </div>
+
+            <div class="charts-grid">
+                <div class="glass-card chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-card-title">
+                            <i class="fa-solid fa-arrow-trend-up" style="color: #3b82f6;"></i>
+                            <span>महिनानिहाय प्रगतीशील खर्च ट्रेंड (Monthly Trend)</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendLineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-card-title">
+                            <i class="fa-solid fa-chart-bar" style="color: #10b981;"></i>
+                            <span>काम प्रकारानुसार बजेट विरूद्ध प्रत्यक्ष खर्च (Category Spent)</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryBarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card chart-card" style="grid-column: 1 / -1;">
+                    <div class="chart-card-header">
+                        <div class="chart-card-title">
+                            <i class="fa-solid fa-chart-pie" style="color: #f59e0b;"></i>
+                            <span>योजनानिहाय खर्च वितरण टक्केवारी (Funding Source Share)</span>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="max-height: 280px;">
+                        <canvas id="schemeDonutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FR 5.2 Date-wise Financial Expenditure Maintainer -->
+            <div class="expenditure-section">
+                <div class="section-title-bar">
+                    <h3>
+                        <i class="fa-solid fa-calendar-days" style="color: #3b82f6;"></i>
+                        <span id="txt-expenditures-title">FR ५.२ तारीखवार खर्च नोंदी (Date-wise Expenditure Records)</span>
+                    </h3>
+                </div>
+
+                <div class="glass-card" style="padding: 1.25rem;">
+                    <div class="table-toolbar">
+                        <div class="search-filter-group">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search-input" placeholder="पावती क्र., काम किंवा कंत्राटदार शोधा...">
+                            </div>
+
+                            <div class="date-range-filter">
+                                <i class="fa-regular fa-calendar" style="color: var(--text-muted);"></i>
+                                <input type="date" id="filter-start-date" title="सुरुवातीची तारीख">
+                                <span style="color: var(--text-muted); font-size: 0.8rem;">ते</span>
+                                <input type="date" id="filter-end-date" title="अंतिम तारीख">
+                            </div>
+
+                            <select class="filter-select" id="filter-category">
+                                <option value="all">सर्व काम प्रकार (All Categories)</option>
+                                <option value="classrooms">वर्गखोल्या (Classrooms)</option>
+                                <option value="toilets">स्वच्छतागृह (Toilets)</option>
+                                <option value="fencing">संरक्षक भिंत (Fencing)</option>
+                                <option value="water">पिण्याचे पाणी (Water)</option>
+                            </select>
+
+                            <select class="filter-select" id="filter-status">
+                                <option value="all">सर्व स्थिती (All Status)</option>
+                                <option value="Completed">पूर्ण (Completed - Green)</option>
+                                <option value="Pending">प्रलंबित (Pending - Yellow)</option>
+                                <option value="Blocked">अडकलेले (Blocked - Red)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table" id="expenditures-table">
+                            <thead>
+                                <tr>
+                                    <th>तारीख (Date)</th>
+                                    <th>पावती क्र. (Voucher)</th>
+                                    <th>कामाचे तपशील व टप्पा (Details & Stage)</th>
+                                    <th>निधी स्रोत (Scheme)</th>
+                                    <th>कंत्राटदार / पुरवठादार (Vendor)</th>
+                                    <th>रक्कम (Amount ₹)</th>
+                                    <th>जिओ-टॅगिंग (Geo-Tag)</th>
+                                    <th>स्थिती (Status)</th>
+                                    <th>कृती (Actions)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenditure-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal 1: Add/Edit Expenditure Entry (FR 5.2 Modal) -->
+    <div class="modal-overlay" id="expense-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-title">
+                    <i class="fa-solid fa-file-invoice-dollar" style="color: #10b981;"></i>
+                    <span id="txt-modal-add-title">नवीन खर्च नोंदणी करा (Add Expenditure)</span>
+                </h3>
+                <button class="modal-close-btn" id="close-modal-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="expense-form">
+                <div class="modal-body">
+                    <input type="hidden" id="entry-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="entry-date">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>खर्चाची तारीख (Date) *</span>
+                            </label>
+                            <input type="date" id="entry-date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-voucher">
+                                <i class="fa-solid fa-receipt"></i>
+                                <span>देयक / पावती क्रमांक (Voucher No) *</span>
+                            </label>
+                            <input type="text" id="entry-voucher" class="form-control" placeholder="उदा. VCH/2026/450" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-category">
+                                <i class="fa-solid fa-list"></i>
+                                <span>काम प्रकार (Work Category) *</span>
+                            </label>
+                            <select id="entry-category" class="form-control" required>
+                                <option value="classrooms">वर्गखोल्या (Classrooms)</option>
+                                <option value="toilets">स्वच्छतागृह (Toilets)</option>
+                                <option value="fencing">संरक्षक भिंत (Fencing)</option>
+                                <option value="water">पिण्याचे पाणी (Water Facilities)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-fund">
+                                <i class="fa-solid fa-vault"></i>
+                                <span>निधी स्रोत (Funding Scheme) *</span>
+                            </label>
+                            <select id="entry-fund" class="form-control" required>
+                                <option value="fund_annual">वार्षिक योजना (Annual Plan)</option>
+                                <option value="fund_mineral">गौण खनिज निधी (Minor Mineral Fund)</option>
+                                <option value="fund_zp">जि. प. स्वतःचा निधी (ZP Own Fund)</option>
+                                <option value="fund_csr">सीएसआर निधी (CSR Fund)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-stage">
+                                <i class="fa-solid fa-bars-staggered"></i>
+                                <span>प्रकल्प टप्पा (FR 3.3 Stage Weightage) *</span>
+                            </label>
+                            <select id="entry-stage" class="form-control" required>
+                                <option value="Planning & Approval">नियोजन व मंजुरी (Planning & Approval - 10%)</option>
+                                <option value="Demolition & Site Prep">पाडकाम व जागा सिद्धता (Demolition - 15%)</option>
+                                <option value="Foundation & Plinth">पाया व प्लिंथ काम (Foundation - 20%)</option>
+                                <option value="Walls & Construction">भिंती व स्ट्रक्चर (Walls - 15%)</option>
+                                <option value="Finishing & Handover">फिनिशिंग व हस्तांतरण (Finishing - 40%)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-amount">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <span>खर्च केलेली रक्कम (Amount ₹) *</span>
+                            </label>
+                            <input type="number" id="entry-amount" class="form-control" min="1" step="100" placeholder="उदा. 50000" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="entry-vendor">
+                                <i class="fa-solid fa-building"></i>
+                                <span>कंत्राटदार / पुरवठादाराचे नाव (Vendor / Contractor Name) *</span>
+                            </label>
+                            <input type="text" id="entry-vendor" class="form-control" placeholder="उदा. शिवनेरी इन्फ्रा प्रोजेक्ट्स" required>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="entry-desc">
+                                <i class="fa-solid fa-align-left"></i>
+                                <span>खर्चाचा सविस्तर तपशील (Expenditure Details)</span>
+                            </label>
+                            <textarea id="entry-desc" class="form-control" rows="2" placeholder="कामाचे संक्षिप्त वर्णन लिहा..."></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>
+                                <i class="fa-solid fa-camera"></i>
+                                <span>पावती / कामाचा जिओ-टॅग फोटो (Voucher Photo Upload)</span>
+                            </label>
+                            <div class="upload-dropzone" id="dropzone-area">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <p style="font-weight: 600; font-size: 0.85rem;">फोटो अपलोड करण्यासाठी येथे क्लिक करा किंवा ड्रॅग करा</p>
+                                <p style="font-size: 0.75rem; color: var(--text-muted);">GPS लोकेशन व टाईमस्टॅम्प स्वयंचलित जोडले जाईल</p>
+                                <input type="file" id="file-input" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="photo-preview-container" style="display: none; margin-top: 10px; text-align: center;">
+                                <img id="photo-preview" src="" alt="Voucher Preview" style="max-height: 120px; border-radius: 8px; border: 1px solid var(--border-glow);">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entry-status">
+                                <i class="fa-solid fa-flag"></i>
+                                <span>देयक मंजुरी स्थिती (SRS Color Status)</span>
+                            </label>
+                            <select id="entry-status" class="form-control">
+                                <option value="Completed">पूर्ण (Green Completed)</option>
+                                <option value="Pending">प्रलंबित (Yellow Pending)</option>
+                                <option value="Blocked">अडकलेले (Red Blocked)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: center; justify-content: center; padding-top: 1.5rem;">
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="entry-geotag" checked style="width: 18px; height: 18px; accent-color: #06b6d4;">
+                                <span>जिओ-टॅग सत्यापित (Geo-Tag Verified)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-3d btn-3d-secondary" id="cancel-modal-btn">रद्द करा</button>
+                    <button type="submit" class="btn-3d btn-3d-success" id="save-expense-btn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>जतन करा (Save Expense)</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: View Voucher Receipt Details -->
+    <div class="modal-overlay" id="receipt-modal">
+        <div class="modal-container" style="max-width: 550px;">
+            <div class="modal-header">
+                <h3>
+                    <i class="fa-solid fa-stamp" style="color: #3b82f6;"></i>
+                    <span>वित्तीय पावती प्रमाणक (Voucher Receipt Certificate)</span>
+                </h3>
+                <button class="modal-close-btn" id="close-receipt-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="receipt-modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-3d btn-3d-primary" onclick="window.print();">
+                    <i class="fa-solid fa-print"></i> प्रिंट पावती
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Application Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
